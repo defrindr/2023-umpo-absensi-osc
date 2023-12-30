@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+
+
+}
+
+.bg-tblue{
+    background-color: #5BCEFA;
+}
+
+.bg-tpink{
+    background-color: #F5A9B8;
+}
+
+.bg-twhite{
+    background-color: #FFFFFF;
+}
