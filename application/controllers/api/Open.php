@@ -7,7 +7,6 @@ class Open extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Modeluser');
-        $this->load->model('Modelopen');
         $this->load->model('Modelsession');
         $this->load->helper('global');
 
@@ -23,43 +22,6 @@ class Open extends CI_Controller {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Headers: Authorization');
         }
-    }
-
-    public function desa(){
-        $data = $this->Modelopen->desa();
-
-        foreach($data as $row){
-            $row->desa = base64_decode($row->desa);
-        }
-
-        $response = array(
-            'status' => 200,
-            'message' => 'Success',
-            'data' => $data
-        );
-
-        reply($response);
-    }
-
-    public function berita(){
-        $user_id = $this->input->get('id');
-        $data = $this->Modelopen->berita($user_id);
-
-        foreach($data as $row){
-            $row->judul = base64_decode($row->judul);
-            $row->kategori = base64_decode($row->kategori);
-            $row->isi = base64_decode($row->isi);
-            $row->gambar = base64_decode($row->gambar);
-        }
-
-
-        $response = array(
-            'status' => 200,
-            'message' => 'Success',
-            'data' => $data
-        );
-
-        reply($response);
     }
 
     public function check_session(){

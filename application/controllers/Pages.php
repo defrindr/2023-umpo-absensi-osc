@@ -18,19 +18,10 @@ class Pages extends CI_Controller
         $this->load->view('dashboard');
     }
 
-    public function editor()
-    {
-        $this->load->view('editor');
-    }
-
+    // Data Master
     public function kelas()
     {
         $this->load->view('kelas');
-    }
-
-    public function mahasiswa()
-    {
-        $this->load->view('mahasiswa');
     }
 
     public function dosen()
@@ -38,28 +29,13 @@ class Pages extends CI_Controller
         $this->load->view('dosen');
     }
 
-    public function jadwal()
-    {
-        $this->load->view('relasi');
-    }
-
-    public function home()
-    {
-        $this->load->view('home');
-    }
-
     public function ruang()
     {
         $this->load->view('ruang');
     }
 
-    public function jadwal_real()
+    public function matakuliah()
     {
-        $this->load->view('jadwal');
-    }
-
-    public function jadwal_2()
-    {
-        $this->load->view('jadwal2');
+        $this->load->view('matakuliah');
     }
 }

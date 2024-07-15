@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Modelkelas extends CI_Model
+class Modelmatakuliah extends CI_Model
 {
     public $table;
 
@@ -9,7 +9,7 @@ class Modelkelas extends CI_Model
     {
         parent::__construct();
         $this->load->database();
-        $this->table = 'kelas';
+        $this->table = 'matakuliah';
         $this->load->helper('global');
     }
 
@@ -47,5 +47,24 @@ class Modelkelas extends CI_Model
     {
         $query = $this->db->get($this->table);
         return $query->result();
+    }
+
+
+    public function get_in($condition)
+    {
+        $query = $this->db->where_in('id', $condition)->get($this->table);
+        return $query->result();
+    }
+
+    public function select2()
+    {
+        $items = $this->get();
+
+        $template = [];
+        foreach ($items as $item) {
+            $template[] = ['id' => $item->id, 'text' => $item->kode_matakuliah . ' | ' . $item->nama_matakuliah];
+        }
+
+        return $template;
     }
 }

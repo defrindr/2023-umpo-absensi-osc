@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Data Mahasiswa | <?= APPTITLE ?></title>
+    <title>Data Mata Kuliah | <?= APPTITLE ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="<?php echo base_url(); ?>assets/css/llcp.css" rel="stylesheet">
@@ -125,14 +125,24 @@
                                 <div class="vstack gap-2">
                                     <!-- both update and insert got the same inputs, except insert doesn't have id -->
                                     <div>
-                                        <label for="create-nama" class="form-label">Nama</label>
-                                        <label for="create-nama" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="create-nama" maxlength="64">
+                                        <label for="create-kode_matakuliah" class="form-label">Kode Matkul</label>
+                                        <label for="create-kode_matakuliah" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="create-kode_matakuliah" maxlength="64">
                                     </div>
                                     <div>
-                                        <label for="create-nim" class="form-label">NIM</label>
-                                        <label for="create-nim" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="create-nim" maxlength="16">
+                                        <label for="create-nama_matakuliah" class="form-label">Nama Matkul</label>
+                                        <label for="create-nama_matakuliah" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="create-nama_matakuliah" maxlength="64">
+                                    </div>
+                                    <div>
+                                        <label for="create-sks" class="form-label">Jumlah SKS</label>
+                                        <label for="create-sks" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="create-sks" maxlength="64">
+                                    </div>
+                                    <div>
+                                        <label for="create-semester" class="form-label">Jumlah Semester</label>
+                                        <label for="create-semester" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="create-semester" maxlength="64">
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="create-submit">
@@ -151,19 +161,29 @@
                                     </button>
                                 </div>
                                 <div class="vstack gap-2">
-                                <div>
+                                    <div>
                                         <label for="update-id" class="form-label">ID</label>
                                         <input type="text" class="form-control" id="update-id" readonly>
                                     </div>
                                     <div>
-                                        <label for="update-nama" class="form-label">Nama</label>
-                                        <label for="update-nama" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="update-nama" maxlength="64">
+                                        <label for="update-kode_matakuliah" class="form-label">Kode Matkul</label>
+                                        <label for="update-kode_matakuliah" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="update-kode_matakuliah" maxlength="64">
                                     </div>
                                     <div>
-                                        <label for="update-nim" class="form-label">NIM</label>
-                                        <label for="update-nim" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="update-nim" maxlength="16">
+                                        <label for="update-nama_matakuliah" class="form-label">Nama Matkul</label>
+                                        <label for="update-nama_matakuliah" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="update-nama_matakuliah" maxlength="64">
+                                    </div>
+                                    <div>
+                                        <label for="update-sks" class="form-label">Jumlah SKS</label>
+                                        <label for="update-sks" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="update-sks" maxlength="64">
+                                    </div>
+                                    <div>
+                                        <label for="update-semester" class="form-label">Jumlah Semester</label>
+                                        <label for="update-semester" class="form-counter float-end"></label>
+                                        <input type="text" class="form-control" id="update-semester" maxlength="64">
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="update-submit">
@@ -187,19 +207,19 @@
 <script>
     global_category = [];
     ENDPOINTS = {
-        'update': 'api/v1/mahasiswa/update',
-        'create': 'api/v1/mahasiswa/create',
-        'delete': 'api/v1/mahasiswa/delete',
-        'load': 'api/v1/mahasiswa/get',
+        'update': 'api/v1/matakuliah/update',
+        'create': 'api/v1/matakuliah/create',
+        'delete': 'api/v1/matakuliah/delete',
+        'load': 'api/v1/matakuliah/get',
     }
 
     function toggleSelection(id = null) {
         //if id is null, hide the card
         if (id == null) {
 
-            $('#card-selection').fadeOut(anim_delay, function () {
+            $('#card-selection').fadeOut(anim_delay, function() {
                 //clear all data
-                $.each($('#card-selection input, #card-selection textarea'), function (i, e) {
+                $.each($('#card-selection input, #card-selection textarea'), function(i, e) {
                     $(e).val('');
                 });
             });
@@ -210,24 +230,28 @@
         //fill data from table
         var row = table.getRow(id);
         $('#update-id').val(id);
-        $('#update-nama').val(row.getData().nama);
-        $('#update-nim').val(row.getData().nim);
+        $('#update-kode_matakuliah').val(row.getData().kode_matakuliah);
+        $('#update-nama_matakuliah').val(row.getData().nama_matakuliah);
+        $('#update-sks').val(row.getData().sks);
+        $('#update-semester').val(row.getData().semester);
 
     }
 
-    $('#update-submit').click(function () {
+    $('#update-submit').click(function() {
         //get data from form
         data = {
             id: $('#update-id').val(),
-            nama: $('#update-nama').val(),
-            nim: $('#update-nim').val(),
+            kode_matakuliah: $('#update-kode_matakuliah').val(),
+            nama_matakuliah: $('#update-nama_matakuliah').val(),
+            sks: $('#update-sks').val(),
+            semester: $('#update-semester').val(),
         }
 
         $.ajax({
             url: global_defaults.server_url + ENDPOINTS.update,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 load_data();
                 //hide card
                 toggleSelection();
@@ -235,14 +259,17 @@
         });
     });
 
-    $('#create-submit').click(function () {
+    $('#create-submit').click(function() {
         data = {
             nama: $('#create-nama').val(),
-            nim: $('#create-nim').val(),
+            kode_matakuliah: $('#create-kode_matakuliah').val(),
+            nama_matakuliah: $('#create-nama_matakuliah').val(),
+            sks: $('#create-sks').val(),
+            semester: $('#create-semester').val(),
         }
 
         break_flag = false;
-        $.each(data, function (i, e) {
+        $.each(data, function(i, e) {
             if (e == '') {
                 break_flag = true;
             }
@@ -257,7 +284,7 @@
             url: global_defaults.server_url + ENDPOINTS.create,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 //refresh table
                 load_data();
             }
@@ -275,13 +302,13 @@
                 id: id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //delete row
                 table.deleteRow(id);
 
                 bin('Data deleted', 'success');
             },
-            error: function (data) {
+            error: function(data) {
                 //alert response code and message
                 alert(data.status + ' ' + data.responseJSON.message, 'danger');
 
@@ -291,23 +318,47 @@
     }
 
     var table = new Tabulator("#data-table", {
-        layout: "fitColumns",      //fit columns to width of table
-        responsiveLayout: "hide",  //hide columns that dont fit on the table
-        addRowPos: "top",          //when adding a new row, add it to the top of the table
-        history: true,             //allow undo and redo actions on the table
-        pagination: "local",       //paginate the data
-        paginationSize: 16,         //allow 7 rows per page of data
+        layout: "fitColumns", //fit columns to width of table
+        responsiveLayout: "hide", //hide columns that dont fit on the table
+        addRowPos: "top", //when adding a new row, add it to the top of the table
+        history: true, //allow undo and redo actions on the table
+        pagination: "local", //paginate the data
+        paginationSize: 16, //allow 7 rows per page of data
         paginationCounter: "rows", //display count of paginated rows in footer
-        movableColumns: true,      //allow column order to be changed
+        movableColumns: true, //allow column order to be changed
         columnDefaults: {
-            tooltip: true,         //show tool tips on cells
+            tooltip: true, //show tool tips on cells
         },
-        columns: [
-            { title: "No", field: "no", width: 80 },
-            { title: "Nama", field: "nama"},
-            { title: "NIM", field: "nim"},
+        columns: [{
+                title: "No",
+                field: "no",
+                width: 80
+            },
+            {
+                title: "Kode Matkul",
+                field: "kode_matakuliah"
+            },
+            {
+                title: "Nama",
+                field: "nama_matakuliah"
+            },
+            {
+                title: "Jumlah SKS",
+                field: "sks"
+            },
+            {
+                title: "Semester",
+                field: "semester"
+            },
             //hidden created
-            { title: "Action", field: "action", width: 100, formatter: "html", tooltip: false , download: false},
+            {
+                title: "Action",
+                field: "action",
+                width: 100,
+                formatter: "html",
+                tooltip: false,
+                download: false
+            },
         ],
     });
 
@@ -322,20 +373,20 @@
             url: global_defaults.server_url + ENDPOINTS.load,
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //hide loading
-                $('#loader-container').fadeOut(anim_delay, function () {
+                $('#loader-container').fadeOut(anim_delay, function() {
                     data = data.data;
 
                     //add number
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         data[i].no = i + 1;
                     });
 
                     table.setData(data);
 
                     //add action buttons
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         var id = data[i].id;
                         var action = '<div class="d-flex justify-content-between align-items-center">';
                         action += '<button class="btn btn-sm btn-outline-primary" onclick="toggleSelection(`' + id + '`)"><i class="bi bi-pencil"></i></button>';
@@ -349,9 +400,9 @@
                     bin('Data loaded successfully', 'success');
                 });
 
-                
+
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 //hide loading
                 $('#loader-container').hide();
 
@@ -367,16 +418,16 @@
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         load_data();
     });
 
-    $('#tools-refresh').click(function () {
+    $('#tools-refresh').click(function() {
         load_data();
     });
 
     //on tool export button click print table data
-    $("#tools-export").click(function () {
+    $("#tools-export").click(function() {
         //filename is $extract-title-$date
         //date is in iso format
         var date = new Date();

@@ -1,6 +1,18 @@
 <?php
 
-if(!function_exists('random_id')){
+if (!function_exists('dd')) {
+    /**
+     * Melakukan export data
+     */
+    function dd(...$var)
+    {
+        echo var_export($var, true);
+        die;
+    }
+}
+
+
+if (!function_exists('random_id')) {
     function random_id($length = 32)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -14,7 +26,7 @@ if(!function_exists('random_id')){
 }
 
 //random id but uppercase and numbers only
-if(!function_exists('random_id_upper')){
+if (!function_exists('random_id_upper')) {
     function random_id_upper($length = 32)
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -28,7 +40,7 @@ if(!function_exists('random_id_upper')){
 }
 
 //reply with output
-if(!function_exists('reply')){
+if (!function_exists('reply')) {
     function reply($response)
     {
         //add timestamp
@@ -50,7 +62,7 @@ if(!function_exists('reply')){
 }
 
 //check for empty values in array
-if(!function_exists('array_empty_check')) {
+if (!function_exists('array_empty_check')) {
     function array_empty_check($array)
     {
         foreach ($array as $key => $value) {
@@ -63,7 +75,7 @@ if(!function_exists('array_empty_check')) {
 }
 
 //remove empty key pairs from array
-if(!function_exists('array_empty_remove')) {
+if (!function_exists('array_empty_remove')) {
     function array_empty_remove($array)
     {
         foreach ($array as $key => $value) {
@@ -76,7 +88,7 @@ if(!function_exists('array_empty_remove')) {
 }
 
 //json reply function
-if(!function_exists('json_reply')){
+if (!function_exists('json_reply')) {
     function json_reply($status, $message, $data = null)
     {
         $reply = array(
@@ -90,7 +102,7 @@ if(!function_exists('json_reply')){
 }
 
 //session check
-if(!function_exists('session_check')){
+if (!function_exists('session_check')) {
     function session_check($role = null, $target = 'json')
     {
         $ci = &get_instance();
@@ -134,44 +146,39 @@ if(!function_exists('session_check')){
 }
 
 //cors check
-if(!function_exists('cors_check')){
+if (!function_exists('cors_check')) {
     function cors_check()
     {
         $ci = &get_instance();
 
         //load session model
         $ci->load->model('Modelsession');
-        
+
         //if environment is development, allow all origins and dont check for key
         //if testing allow all origins and check for key
         //if production allow only specific origins and check for key
-        if(ENVIRONMENT == 'development'){
+        if (ENVIRONMENT == 'development') {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Headers: Authorization');
             return true;
-        } else if(ENVIRONMENT == 'testing'){
+        } else if (ENVIRONMENT == 'testing') {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Headers: Authorization');
-            if(!$ci->Modelsession->verify($ci->input->get_request_header('Authorization', TRUE))){
+            if (!$ci->Modelsession->verify($ci->input->get_request_header('Authorization', TRUE))) {
                 return false;
-            }
-            else{
+            } else {
                 return true;
             }
-        } else if(ENVIRONMENT == 'production'){
+        } else if (ENVIRONMENT == 'production') {
             header('Access-Control-Allow-Origin: https://perpus.yakinjaya.com');
             header('Access-Control-Allow-Headers: Authorization');
-            if(!$ci->Modelsession->verify($ci->input->get_request_header('Authorization', TRUE))){
+            if (!$ci->Modelsession->verify($ci->input->get_request_header('Authorization', TRUE))) {
                 return false;
-            }
-            else{
+            } else {
                 return true;
             }
-        }
-        else{
+        } else {
             return false;
         }
     }
 }
-
-?>

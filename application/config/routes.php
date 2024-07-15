@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -65,29 +65,22 @@ $route['api/v1/kelas/delete'] = 'api/kelas/delete';
 $route['api/v1/kelas/update'] = 'api/kelas/update';
 $route['api/v1/kelas/get'] = 'api/kelas/get';
 
+$route['api/v1/matakuliah/create'] = 'api/matakuliah/create';
+$route['api/v1/matakuliah/delete'] = 'api/matakuliah/delete';
+$route['api/v1/matakuliah/update'] = 'api/matakuliah/update';
+$route['api/v1/matakuliah/get'] = 'api/matakuliah/get';
+$route['api/v1/matakuliah/select2'] = 'api/matakuliah/select2';
+
 $route['api/v1/ruang/create'] = 'api/ruang/create';
 $route['api/v1/ruang/delete'] = 'api/ruang/delete';
 $route['api/v1/ruang/update'] = 'api/ruang/update';
 $route['api/v1/ruang/get'] = 'api/ruang/get';
 
-$route['api/v1/mahasiswa/create'] = 'api/mahasiswa/create';
-$route['api/v1/mahasiswa/delete'] = 'api/mahasiswa/delete';
-$route['api/v1/mahasiswa/update'] = 'api/mahasiswa/update';
-$route['api/v1/mahasiswa/get'] = 'api/mahasiswa/get';
-$route['api/v1/mahasiswa/searchnim'] = 'api/mahasiswa/searchnim';
-$route['api/v1/mahasiswa/get_in'] = 'api/mahasiswa/get_in';
-
 $route['api/v1/dosen/create'] = 'api/dosen/create';
 $route['api/v1/dosen/delete'] = 'api/dosen/delete';
 $route['api/v1/dosen/update'] = 'api/dosen/update';
 $route['api/v1/dosen/get'] = 'api/dosen/get';
-
-$route['api/v1/relasi/create'] = 'api/relasi/create';
-$route['api/v1/relasi/delete'] = 'api/relasi/delete';
-$route['api/v1/relasi/update'] = 'api/relasi/update';
-$route['api/v1/relasi/get'] = 'api/relasi/get';
-$route['api/v1/relasi/detailed'] = 'api/relasi/get_detailed';
-$route['api/v1/relasi/schedule'] = 'api/relasi/get_schedule';
+$route['api/v1/dosen/ampuan/(:any)'] = 'api/dosen/ampuan/$1';
 
 //APIs without cors or session limit
 $route['api/v1/open/user/verify'] = 'api/open/verify';
@@ -98,11 +91,15 @@ $route['api/v1/open/ruang'] = 'api/open/ruang';
 
 $route['auth'] = 'Pages/auth';
 $route['dashboard'] = 'Pages/dashboard';
-$route['editor'] = 'Pages/editor';
-$route['ruang'] = 'Pages/ruang';
 $route['kelas'] = 'Pages/kelas';
-$route['mahasiswa'] = 'Pages/mahasiswa';
 $route['dosen'] = 'Pages/dosen';
-$route['jadwal'] = 'Pages/jadwal';
-$route['jadwalkuliah'] = 'Pages/jadwal_real';
-$route['jadwalkuliah2'] = 'Pages/jadwal_2';
+$route['ruang'] = 'Pages/ruang';
+$route['matakuliah'] = 'Pages/matakuliah';
+
+
+// $route['editor'] = 'Pages/editor';
+// $route['kelas'] = 'Pages/kelas';
+// $route['mahasiswa'] = 'Pages/mahasiswa';
+// $route['jadwal'] = 'Pages/jadwal';
+// $route['jadwalkuliah'] = 'Pages/jadwal_real';
+// $route['jadwalkuliah2'] = 'Pages/jadwal_2';

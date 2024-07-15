@@ -14,6 +14,7 @@
     <link href="<?php echo base_url(); ?>assets/css/official.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/css/llcp.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js" integrity="sha512-wT7uPE7tOP6w4o28u1DN775jYjHQApdBnib5Pho4RB0Pgd9y7eSkAV1BTqQydupYDB9GBhTcQQzyNMPMV3cAew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -54,7 +55,7 @@
         </div>
         <div class="container-fluid p-2 p-md-3 py-4">
             <div class="row row-cols-1 m-0">
-                <div class="col-md-9 mb-3" id="mainbar">
+                <div class="col-md-7 mb-3" id="mainbar">
                     <div class="vstack gap-3">
                         <div class="card shadow border-top-dark">
                             <div class="card-body">
@@ -109,7 +110,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-3 mb-3" id="sidebar">
+                <div class="col-md-5 mb-3" id="sidebar">
                     <div id="scroll-spacer">
 
                     </div>
@@ -134,6 +135,13 @@
                                         <label for="create-nomer_induk" class="form-counter float-end"></label>
                                         <input type="text" class="form-control" id="create-nomer_induk" maxlength="16">
                                     </div>
+
+                                    <div>
+                                        <label for="create-matakuliah" class="form-label">List Matakuliah</label>
+                                        <label for="" class="float-end">-</label>
+                                        <select name="matakuliah[]" style="width:100%" multiple="multiple" class="form-control" id="create-matakuliah"></select>
+                                    </div>
+
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="create-submit">
                                             <i class="bi bi-check2"></i> Submit
@@ -151,7 +159,7 @@
                                     </button>
                                 </div>
                                 <div class="vstack gap-2">
-                                <div>
+                                    <div>
                                         <label for="update-id" class="form-label">ID</label>
                                         <input type="text" class="form-control" id="update-id" readonly>
                                     </div>
@@ -160,11 +168,19 @@
                                         <label for="update-nama" class="form-counter float-end"></label>
                                         <input type="text" class="form-control" id="update-nama" maxlength="64">
                                     </div>
+
                                     <div>
-                                        <label for="update-nomer_induk" class="form-label">Nomer Induk</label>
+                                        <label for="update-nomer_induk" class="form-label">No Induk</label>
                                         <label for="update-nomer_induk" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="update-nomer_induk" maxlength="16">
+                                        <input type="text" class="form-control" id="update-nomer_induk" maxlength="64">
                                     </div>
+
+                                    <div>
+                                        <label for="update-matakuliah" class="form-label">List Matakuliah</label>
+                                        <label for="" class="float-end">-</label>
+                                        <select name="matakuliah[]" style="width:100%" multiple="multiple" class="form-control" id="update-matakuliah"></select>
+                                    </div>
+
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="update-submit">
                                             <i class="bi bi-check2"></i> Submit
@@ -183,23 +199,49 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/5.4.4/js/tabulator.min.js" integrity="sha512-BGo9xGWI32ZfTMp/ueR3fZKO5nYkPbt3uwMWr+w8w3e72H8A0sTQGO+iqRADwIT0eJkFP1HDgSC82gA4sTuQ6w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- use version 0.19.2 -->
 <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.19.2/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/bottom.js"></script>
 <script>
     global_category = [];
     ENDPOINTS = {
+        'select2_matakuliah': 'api/v1/matakuliah/select2',
         'update': 'api/v1/dosen/update',
         'create': 'api/v1/dosen/create',
         'delete': 'api/v1/dosen/delete',
         'load': 'api/v1/dosen/get',
+        'fetchMatakuliah': 'api/v1/dosen/ampuan/',
     }
 
-    function toggleSelection(id = null) {
+    $('#tools-sidebar').off('click');
+    $('#tools-sidebar').on('click', function() {
+        if (config.sidebarVisible) {
+            $('#sidebar').fadeOut(anim_delay, function() {
+                $('#mainbar').removeClass('col-md-6').addClass('col-md-12');
+                config.setSidebarVisible(false);
+            });
+
+            //remove btn-dark from self and add btn-outline-dark
+            $(this).removeClass('btn-dark').addClass('btn-outline-dark');
+
+        } else {
+            $('#mainbar').removeClass('col-md-12').addClass('col-md-6');
+            $('#sidebar').fadeIn(anim_delay, function() {
+                config.setSidebarVisible(true);
+            });
+
+            //remove btn-outline-dark from self and add btn-dark
+            $(this).removeClass('btn-outline-dark').addClass('btn-dark');
+        }
+    });
+
+
+    async function toggleSelection(id = null) {
         //if id is null, hide the card
         if (id == null) {
 
-            $('#card-selection').fadeOut(anim_delay, function () {
+            $('#card-selection').fadeOut(anim_delay, function() {
                 //clear all data
-                $.each($('#card-selection input, #card-selection textarea'), function (i, e) {
+                $.each($('#card-selection input, #card-selection textarea'), function(i, e) {
                     $(e).val('');
                 });
             });
@@ -207,6 +249,21 @@
         }
         $('#card-selection').fadeIn(anim_delay);
 
+        try {
+
+            let rawResult = await fetch(global_defaults.server_url + ENDPOINTS.fetchMatakuliah + id);
+            let jsonResult = await rawResult.json();
+
+            if (jsonResult.data) {
+                $('#update-matakuliah').empty();
+                for (let i = 0; i <= jsonResult.data.length; i++) {
+                    $('#update-matakuliah').append(`<option value="${jsonResult.data[i].id}" selected="selected">${jsonResult.data[i].nama_matakuliah}</option>`);
+                }
+                $('#update-matakuliah').trigger('change');
+            }
+        } catch (error) {
+
+        }
         //fill data from table
         var row = table.getRow(id);
         $('#update-id').val(id);
@@ -215,34 +272,39 @@
 
     }
 
-    $('#update-submit').click(function () {
+    $('#update-submit').click(function() {
         //get data from form
         data = {
             id: $('#update-id').val(),
             nama: $('#update-nama').val(),
             nomer_induk: $('#update-nomer_induk').val(),
+            matakuliah: $('#update-matakuliah').val(),
         }
 
         $.ajax({
             url: global_defaults.server_url + ENDPOINTS.update,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 load_data();
                 //hide card
                 toggleSelection();
+            },
+            error: (data) => {
+                bin(data?.responseJSON?.message ?? 'Update failed', 'failed');
             }
         });
     });
 
-    $('#create-submit').click(function () {
+    $('#create-submit').click(function() {
         data = {
             nama: $('#create-nama').val(),
             nomer_induk: $('#create-nomer_induk').val(),
+            matakuliah: $('#create-matakuliah').val(),
         }
 
         break_flag = false;
-        $.each(data, function (i, e) {
+        $.each(data, function(i, e) {
             if (e == '') {
                 break_flag = true;
             }
@@ -257,9 +319,12 @@
             url: global_defaults.server_url + ENDPOINTS.create,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 //refresh table
                 load_data();
+            },
+            error: (data) => {
+                bin(data?.responseJSON?.message ?? 'Create failed', 'failed');
             }
         });
     });
@@ -275,13 +340,13 @@
                 id: id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //delete row
                 table.deleteRow(id);
 
                 bin('Data deleted', 'success');
             },
-            error: function (data) {
+            error: function(data) {
                 //alert response code and message
                 alert(data.status + ' ' + data.responseJSON.message, 'danger');
 
@@ -291,23 +356,43 @@
     }
 
     var table = new Tabulator("#data-table", {
-        layout: "fitColumns",      //fit columns to width of table
-        responsiveLayout: "hide",  //hide columns that dont fit on the table
-        addRowPos: "top",          //when adding a new row, add it to the top of the table
-        history: true,             //allow undo and redo actions on the table
-        pagination: "local",       //paginate the data
-        paginationSize: 16,         //allow 7 rows per page of data
+        layout: "fitColumns", //fit columns to width of table
+        responsiveLayout: "hide", //hide columns that dont fit on the table
+        addRowPos: "top", //when adding a new row, add it to the top of the table
+        history: true, //allow undo and redo actions on the table
+        pagination: "local", //paginate the data
+        paginationSize: 16, //allow 7 rows per page of data
         paginationCounter: "rows", //display count of paginated rows in footer
-        movableColumns: true,      //allow column order to be changed
+        movableColumns: true, //allow column order to be changed
         columnDefaults: {
-            tooltip: true,         //show tool tips on cells
+            tooltip: true, //show tool tips on cells
         },
-        columns: [
-            { title: "No", field: "no", width: 80 },
-            { title: "Nama", field: "nama"},
-            { title: "Nomer Induk", field: "nomer_induk"},
+        columns: [{
+                title: "No",
+                field: "no",
+                width: 80
+            },
+            {
+                title: "Nomer Induk",
+                field: "nomer_induk"
+            },
+            {
+                title: "Nama",
+                field: "nama"
+            },
+            {
+                title: "Matkul Diampu",
+                field: "nama_matakuliah"
+            },
             //hidden created
-            { title: "Action", field: "action", width: 100, formatter: "html", tooltip: false , download: false},
+            {
+                title: "Action",
+                field: "action",
+                width: 100,
+                formatter: "html",
+                tooltip: false,
+                download: false
+            },
         ],
     });
 
@@ -322,20 +407,20 @@
             url: global_defaults.server_url + ENDPOINTS.load,
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //hide loading
-                $('#loader-container').fadeOut(anim_delay, function () {
+                $('#loader-container').fadeOut(anim_delay, function() {
                     data = data.data;
 
                     //add number
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         data[i].no = i + 1;
                     });
 
                     table.setData(data);
 
                     //add action buttons
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         var id = data[i].id;
                         var action = '<div class="d-flex justify-content-between align-items-center">';
                         action += '<button class="btn btn-sm btn-outline-primary" onclick="toggleSelection(`' + id + '`)"><i class="bi bi-pencil"></i></button>';
@@ -349,9 +434,9 @@
                     bin('Data loaded successfully', 'success');
                 });
 
-                
+
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 //hide loading
                 $('#loader-container').hide();
 
@@ -367,16 +452,28 @@
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
+        $('#create-matakuliah').select2({
+            ajax: {
+                url: global_defaults.server_url + ENDPOINTS.select2_matakuliah,
+                dataType: 'json'
+            }
+        });
+        $('#update-matakuliah').select2({
+            ajax: {
+                url: global_defaults.server_url + ENDPOINTS.select2_matakuliah,
+                dataType: 'json'
+            }
+        });
         load_data();
     });
 
-    $('#tools-refresh').click(function () {
+    $('#tools-refresh').click(function() {
         load_data();
     });
 
     //on tool export button click print table data
-    $("#tools-export").click(function () {
+    $("#tools-export").click(function() {
         //filename is $extract-title-$date
         //date is in iso format
         var date = new Date();

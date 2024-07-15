@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kelas extends CI_Controller
+class Matakuliah extends CI_Controller
 {
     //load sensors model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Modelkelas');
+        $this->load->model('Modelmatakuliah');
         $this->load->model('Modelsession');
 
         $this->load->helper('global');
@@ -41,12 +41,25 @@ class Kelas extends CI_Controller
 
     public function get()
     {
-        $data = $this->Modelkelas->get();
+        $data = $this->Modelmatakuliah->get();
 
         $response = array(
             'status' => 200,
-            'message' => 'Fetch all kelas',
+            'message' => 'Fetch all Matakuliah',
             'data' => $data
+        );
+
+        reply($response);
+    }
+
+    public function select2()
+    {
+        $data = $this->Modelmatakuliah->select2();
+
+        $response = array(
+            'status' => 200,
+            'message' => 'Fetch all Matakuliah',
+            'results' => $data
         );
 
         reply($response);
@@ -55,8 +68,10 @@ class Kelas extends CI_Controller
     public function create()
     {
         $data = array(
-            'nama' => $this->input->post('nama'),
-            'tahun_angkatan' => $this->input->post('tahun_angkatan'),
+            'kode_matakuliah' => $this->input->post('kode_matakuliah'),
+            'nama_matakuliah' => $this->input->post('nama_matakuliah'),
+            'sks' => $this->input->post('sks'),
+            'created_at' => date('Y-m-d H:i:s')
         );
 
         if (!array_empty_check($data)) {
@@ -68,18 +83,18 @@ class Kelas extends CI_Controller
             reply($response);
         }
 
-        $status = $this->Modelkelas->insert($data);
+        $status = $this->Modelmatakuliah->insert($data);
 
         if ($status) {
             $response = array(
                 'status' => 201,
-                'message' => 'kelas created',
+                'message' => 'Matakuliah created',
                 'data' => $status
             );
         } else {
             $response = array(
                 'status' => 500,
-                'message' => 'Failed to create kelas',
+                'message' => 'Failed to create Matakuliah',
                 'data' => null
             );
         }
@@ -92,8 +107,9 @@ class Kelas extends CI_Controller
         $id = $this->input->post('id');
 
         $data = array(
-            'nama' => $this->input->post('nama'),
-            'tahun_angkatan' => $this->input->post('tahun_angkatan'),
+            'kode_matakuliah' => $this->input->post('kode_matakuliah'),
+            'nama_matakuliah' => $this->input->post('nama_matakuliah'),
+            'sks' => $this->input->post('sks')
         );
 
         if (empty($id) || !array_empty_check($data)) {
@@ -105,16 +121,16 @@ class Kelas extends CI_Controller
             reply($response);
         }
 
-        if ($this->Modelkelas->update($id, $data)) {
+        if ($this->Modelmatakuliah->update($id, $data)) {
             $response = array(
                 'status' => 200,
-                'message' => 'kelas updated',
+                'message' => 'Matakuliah updated',
                 'data' => null
             );
         } else {
             $response = array(
                 'status' => 500,
-                'message' => 'Failed to update kelas',
+                'message' => 'Failed to update Matakuliah',
                 'data' => null
             );
         }
@@ -135,16 +151,16 @@ class Kelas extends CI_Controller
             reply($response);
         }
 
-        if ($this->Modelkelas->delete($id)) {
+        if ($this->Modelmatakuliah->delete($id)) {
             $response = array(
                 'status' => 200,
-                'message' => 'kelas deleted',
+                'message' => 'Matakuliah deleted',
                 'data' => null
             );
         } else {
             $response = array(
                 'status' => 500,
-                'message' => 'Failed to delete kelas',
+                'message' => 'Failed to delete Matakuliah',
                 'data' => null
             );
         }

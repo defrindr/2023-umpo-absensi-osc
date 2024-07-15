@@ -1,7 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Modelruang extends CI_Model {
+class Modelruang extends CI_Model
+{
+    public $table;
 
     public function __construct()
     {
@@ -11,7 +13,8 @@ class Modelruang extends CI_Model {
         $this->load->helper('global');
     }
 
-    public function insert($data){
+    public function insert($data)
+    {
         $data['id'] = random_id(32);
         if ($this->db->insert($this->table, $data)) {
             return $data['id'];
@@ -20,7 +23,8 @@ class Modelruang extends CI_Model {
         }
     }
 
-    public function update($id, $data){
+    public function update($id, $data)
+    {
         $this->db->where('id', $id);
         if ($this->db->update($this->table, $data)) {
             return true;
@@ -29,7 +33,8 @@ class Modelruang extends CI_Model {
         }
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $this->db->where('id', $id);
         if ($this->db->delete($this->table)) {
             return true;
@@ -38,17 +43,17 @@ class Modelruang extends CI_Model {
         }
     }
 
-    public function get(){
+    public function get()
+    {
         $query = $this->db->get($this->table);
         return $query->result();
     }
 
-    public function unique_ruang(){
+    public function unique_ruang()
+    {
         $this->db->select('ruang');
         $this->db->distinct();
         $query = $this->db->get($this->table);
         return $query->result();
     }
 }
-
-?>

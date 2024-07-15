@@ -11,36 +11,38 @@
                     <a class="btn btn-light rounded-0 text-start px-3 fs-5 w-100" href="<?= site_url('dashboard') ?>">
                         <i class="bi bi-house-fill"></i> Dashboard
                     </a>
-                    <a class="btn btn-light rounded-0 text-start px-3 fs-5 w-100 d-none" href="<?= site_url('jadwalkuliah') ?>">
-                        <i class="bi bi-calendar"></i> View Jadwal
-                    </a>
-                    <a class="btn btn-light rounded-0 text-start px-3 fs-5 w-100" href="<?= site_url('jadwalkuliah2') ?>">
-                        <i class="bi bi-cpu"></i> Jadwal Kuliah
-                    </a>
                     <div class="d-block border-top border-dark border-2 p-2 px-3 fs-5 bg-dark text-white">
-                        <i class="bi bi-table"></i> Data
+                        <i class="bi bi-table"></i> Master
                     </div>
-                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('ruang') ?>">
-                        <i class="bi bi-door-open"></i> Ruang
-                    </a>
                     <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('kelas') ?>">
-                        <i class="bi bi-cast"></i> Kelas
+                        <i class="bi bi-file-person"></i> Kelas
                     </a>
-                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('mahasiswa') ?>">
-                        <i class="bi bi-person"></i> Mahasiswa
+                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('matakuliah') ?>">
+                        <i class="bi bi-bookmark"></i> Mata Kuliah
                     </a>
                     <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('dosen') ?>">
                         <i class="bi bi-file-person"></i> Dosen
                     </a>
-                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('jadwal') ?>">
-                        <i class="bi bi-calendar"></i> Jadwal
+                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('ruang') ?>">
+                        <i class="bi bi-bookmark"></i> Ruangan
                     </a>
-                    
+                    <div class="d-block border-top border-dark border-2 p-2 px-3 fs-5 bg-dark text-white">
+                        <i class="bi bi-table"></i> Greedy
+                    </div>
+                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('jam_kuliah') ?>">
+                        <i class="bi bi-bookmark"></i> Jam Kuliah
+                    </a>
+                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('maping_ruangan') ?>">
+                        <i class="bi bi-bookmark"></i> Maping Ruangan
+                    </a>
+                    <a class="btn btn-light rounded-0 text-start px-3 ps-4 fs-5 w-100" href="<?= site_url('maping_pengampu') ?>">
+                        <i class="bi bi-bookmark"></i> Maping Pengampu
+                    </a>
                 </div>
             </div>
         </div>
         <div class="flex-fill p-3 h-100 nav-toggler">
-            
+
         </div>
     </div>
 

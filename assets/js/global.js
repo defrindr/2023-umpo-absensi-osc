@@ -10,9 +10,9 @@ cookie_config = {
 };
 
 global_defaults = {
-    server_url: "http://127.0.0.1/osc-umpo-apisched/",
-    auth_url: "http://127.0.0.1/osc-umpo-apisched/auth",
-    dashboard_url: "http://127.0.0.1/osc-umpo-apisched/dashboard",
+    server_url: "http://osc.test/",
+    auth_url: "http://osc.test/auth",
+    dashboard_url: "http://osc.test/dashboard",
     VERSION: '2023'
 }
 

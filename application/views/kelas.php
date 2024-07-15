@@ -130,16 +130,8 @@
                                         <input type="text" class="form-control" id="create-nama" maxlength="64">
                                     </div>
                                     <div>
-                                        <label for="create-ruang" class="form-label">Ruang</label>
-                                        <label for="create-ruang" class="form-counter float-end"></label>
-                                        <select class="form-select" id="create-ruang">
-
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="create-jam" class="form-label">Jam</label>
-                                        <label for="create-jam" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="create-jam" maxlength="2">
+                                        <label for="create-tahun_angkatan" class="form-label">Tahun Angkatan</label>
+                                        <input class="form-select" id="create-tahun_angkatan" type="number" min="1998" max="<?= date('Y') + 1 ?>">
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="create-submit">
@@ -158,7 +150,7 @@
                                     </button>
                                 </div>
                                 <div class="vstack gap-2">
-                                <div>
+                                    <div>
                                         <label for="update-id" class="form-label">ID</label>
                                         <input type="text" class="form-control" id="update-id" readonly>
                                     </div>
@@ -168,16 +160,8 @@
                                         <input type="text" class="form-control" id="update-nama" maxlength="64">
                                     </div>
                                     <div>
-                                        <label for="update-ruang" class="form-label">Ruang</label>
-                                        <label for="update-ruang" class="form-counter float-end"></label>
-                                        <select class="form-select" id="update-ruang">
-
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="update-jam" class="form-label">Jam</label>
-                                        <label for="update-jam" class="form-counter float-end"></label>
-                                        <input type="text" class="form-control" id="update-jam" maxlength="2">
+                                        <label for="update-tahun_angkatan" class="form-label">Tahun Angkatan</label>
+                                        <input class="form-select" id="update-tahun_angkatan" type="number" min="1998" max="<?= date('Y') + 1 ?>">
                                     </div>
                                     <div class="d-flex justify-content-end">
                                         <button class="btn btn-primary btn-sm" id="update-submit">
@@ -213,9 +197,9 @@
         //if id is null, hide the card
         if (id == null) {
 
-            $('#card-selection').fadeOut(anim_delay, function () {
+            $('#card-selection').fadeOut(anim_delay, function() {
                 //clear all data
-                $.each($('#card-selection input, #card-selection textarea'), function (i, e) {
+                $.each($('#card-selection input, #card-selection textarea'), function(i, e) {
                     $(e).val('');
                 });
             });
@@ -227,25 +211,23 @@
         var row = table.getRow(id);
         $('#update-id').val(id);
         $('#update-nama').val(row.getData().nama);
-        $('#update-ruang').val(row.getData().ruang);
-        $('#update-jam').val(row.getData().jam);
+        $('#update-tahun_angkatan').val(row.getData().tahun_angkatan);
 
     }
 
-    $('#update-submit').click(function () {
+    $('#update-submit').click(function() {
         //get data from form
         data = {
             id: $('#update-id').val(),
             nama: $('#update-nama').val(),
-            ruang: $('#update-ruang').val(),
-            jam: $('#update-jam').val(),
+            tahun_angkatan: $('#update-tahun_angkatan').val(),
         }
 
         $.ajax({
             url: global_defaults.server_url + ENDPOINTS.update,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 load_data();
                 //hide card
                 toggleSelection();
@@ -253,15 +235,14 @@
         });
     });
 
-    $('#create-submit').click(function () {
+    $('#create-submit').click(function() {
         data = {
             nama: $('#create-nama').val(),
-            ruang: $('#create-ruang').val(),
-            jam: $('#create-jam').val(),
+            tahun_angkatan: $('#create-tahun_angkatan').val(),
         }
 
         break_flag = false;
-        $.each(data, function (i, e) {
+        $.each(data, function(i, e) {
             if (e == '') {
                 break_flag = true;
             }
@@ -276,7 +257,7 @@
             url: global_defaults.server_url + ENDPOINTS.create,
             type: 'POST',
             data: data,
-            success: function (data) {
+            success: function(data) {
                 //refresh table
                 load_data();
             }
@@ -294,13 +275,13 @@
                 id: id
             },
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //delete row
                 table.deleteRow(id);
 
                 bin('Data deleted', 'success');
             },
-            error: function (data) {
+            error: function(data) {
                 //alert response code and message
                 alert(data.status + ' ' + data.responseJSON.message, 'danger');
 
@@ -310,25 +291,40 @@
     }
 
     var table = new Tabulator("#data-table", {
-        layout: "fitColumns",      //fit columns to width of table
-        responsiveLayout: "hide",  //hide columns that dont fit on the table
-        addRowPos: "top",          //when adding a new row, add it to the top of the table
-        history: true,             //allow undo and redo actions on the table
-        pagination: "local",       //paginate the data
-        paginationSize: 16,         //allow 7 rows per page of data
+        layout: "fitColumns", //fit columns to width of table
+        responsiveLayout: "hide", //hide columns that dont fit on the table
+        addRowPos: "top", //when adding a new row, add it to the top of the table
+        history: true, //allow undo and redo actions on the table
+        pagination: "local", //paginate the data
+        paginationSize: 16, //allow 7 rows per page of data
         paginationCounter: "rows", //display count of paginated rows in footer
-        movableColumns: true,      //allow column order to be changed
+        movableColumns: true, //allow column order to be changed
         columnDefaults: {
-            tooltip: true,         //show tool tips on cells
+            tooltip: true, //show tool tips on cells
         },
-        columns: [
-            { title: "No", field: "no", width: 80 },
-            { title: "Nama", field: "nama"},
-            { title: "Ruang", field: "ruang", visible: false},
-            { title: "Ruang Name", field: "ruang_name", width:200},
-            { title: "Jam", field: "jam", width:200},
+        columns: [{
+                title: "No",
+                field: "no",
+                width: 80
+            },
+            {
+                title: "Nama",
+                field: "nama"
+            },
+            {
+                title: "Tahun Angkatan",
+                field: "tahun_angkatan",
+                width: 200
+            },
             //hidden created
-            { title: "Action", field: "action", width: 100, formatter: "html", tooltip: false , download: false},
+            {
+                title: "Action",
+                field: "action",
+                width: 100,
+                formatter: "html",
+                tooltip: false,
+                download: false
+            },
         ],
     });
 
@@ -343,13 +339,13 @@
             url: global_defaults.server_url + ENDPOINTS.load,
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //hide loading
-                $('#loader-container').fadeOut(anim_delay, function () {
+                $('#loader-container').fadeOut(anim_delay, function() {
                     data = data.data;
 
                     //add number
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         data[i].no = i + 1;
                         data[i].ruang_name = local_ruang[data[i].ruang];
                     });
@@ -357,7 +353,7 @@
                     table.setData(data);
 
                     //add action buttons
-                    $.each(data, function (i, v) {
+                    $.each(data, function(i, v) {
                         var id = data[i].id;
                         var action = '<div class="d-flex justify-content-between align-items-center">';
                         action += '<button class="btn btn-sm btn-outline-primary" onclick="toggleSelection(`' + id + '`)"><i class="bi bi-pencil"></i></button>';
@@ -371,9 +367,9 @@
                     bin('Data loaded successfully', 'success');
                 });
 
-                
+
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 //hide loading
                 $('#loader-container').hide();
 
@@ -389,7 +385,7 @@
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         load_data();
 
         //get ruang
@@ -397,13 +393,13 @@
             url: global_defaults.server_url + ENDPOINTS.ruang,
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 //clear select
                 $('#create-ruang').html('');
                 $('#update-ruang').html('');
 
                 //add options
-                $.each(data.data, function (i, e) {
+                $.each(data.data, function(i, e) {
                     $('#create-ruang').append('<option value="' + e.id + '">' + e.nama + '</option>');
                     $('#update-ruang').append('<option value="' + e.id + '">' + e.nama + '</option>');
 
@@ -414,12 +410,12 @@
         });
     });
 
-    $('#tools-refresh').click(function () {
+    $('#tools-refresh').click(function() {
         load_data();
     });
 
     //on tool export button click print table data
-    $("#tools-export").click(function () {
+    $("#tools-export").click(function() {
         //filename is $extract-title-$date
         //date is in iso format
         var date = new Date();
